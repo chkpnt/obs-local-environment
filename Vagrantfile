@@ -9,4 +9,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "provisioning/playbook.yml"
         ansible.extra_vars = "provisioning/credentials.yml"
     end
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = 4096
+    end
 end
