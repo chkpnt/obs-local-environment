@@ -2,40 +2,33 @@
 
 - hosts: default
   tasks:
-    - fail: msg="Please configure 'provisioning/credentials.yml'"
+    - ansible.builtin.fail:
+        msg: Please configure 'provisioning/credentials.yml'
       when: (username is undefined or password is undefined) or
             (username == "username" or password == "password")
 
     - name: Install commonly useful packages
-      become: yes
-      zypper:
+      become: true
+      community.general.zypper:
         name:
           - man
         state: present
 
     - name: Install packages for the OBS local environment
-      become: yes
-      zypper:
+      become: true
+      community.general.zypper:
         name:
           - osc
           - build
-          - obs-service-download_files
-          - obs-service-download_url
-          - obs-service-format_spec_file
-          - obs-service-refresh_patches
-          - obs-service-set_version
-          - obs-service-tar
-          - obs-service-tar_scm
-          - obs-service-verify_file
-      
+          - obs-service-*
     
     - name: Configure osc
       block:
-        - file:
+        - ansible.builtin.file:
             path: /home/vagrant/.config/osc/
             state: directory
             recurse: yes
             mode: 0700
-        - template:
+        - ansible.builtin.template:
             src: home/vagrant/.config/osc/oscrc.j2
             dest: /home/vagrant/.config/osc/oscrc
