@@ -10,7 +10,6 @@
       become: yes
       zypper:
         name:
-          - command-not-found
           - man
         state: present
 
