@@ -1,12 +1,11 @@
 # {{ ansible_managed }}
 
 [general]
-# URL to access API server, e.g. https://api.opensuse.org
-# you also need a section [https://api.opensuse.org] with the credentials
+# Default URL to the API server.
+# Credentials and other `apiurl` specific settings must be configured in a `[$apiurl]` config section.
 apiurl = https://api.opensuse.org
 
 [https://api.opensuse.org]
 user = {{ username }}
 pass = {{ password }}
-
-trusted_prj=openSUSE:Leap:15.1
+credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager
